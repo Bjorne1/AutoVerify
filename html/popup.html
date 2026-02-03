@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>AutoVerify 设置</title>
+		<link rel="stylesheet" type="text/css" href="../js/layui/css/layui.css"/>
+		<style>
+			body { width: 520px; padding: 10px; }
+			.layui-card-header { font-weight: bold; }
+			.rule-list-item { margin-bottom: 5px; padding: 8px 5px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+			.rule-list-item .pattern { flex-grow: 1; margin-right: 10px; word-break: break-all; font-family: 'Courier New', Courier, monospace; }
+			.rule-list-item .tags span { margin-left: 5px; }
+			.layui-form-item .layui-input-inline { width: 100px !important; }
+            .keyword-status-badge { cursor: pointer; }
+		</style>
+	</head>
+	<body>
+	<div class="layui-tab layui-tab-brief">
+		<ul class="layui-tab-title">
+			<li class="layui-this">规则管理</li>
+			<li>错误上报</li>
+			<li>关于</li>
+		</ul>
+		<div class="layui-tab-content" style="padding-top: 10px;">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-card">
+					<div class="layui-card-header">管理规则（控制插件在哪些网站上运行）</div>
+					<div class="layui-card-body">
+						<form class="layui-form" lay-filter="ruleForm">
+							<div class="layui-form-item">
+								<label class="layui-form-label">当前网站</label>
+								<div class="layui-input-block">
+									<span id="currentHost" style="line-height: 36px;">加载中...</span>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">规则</label>
+								<div class="layui-input-block">
+									<input type="text" name="pattern" required lay-verify="required" placeholder="输入域名或正则表达式" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label">类型</label>
+									<div class="layui-input-inline">
+										<select name="type" lay-verify="required">
+											<option value="blacklist">黑名单</option>
+											<option value="whitelist">白名单</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">匹配</label>
+									<div class="layui-input-inline">
+										<select name="match" lay-verify="required">
+											<option value="exact">精确</option>
+											<option value="regex">正则</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn" lay-submit lay-filter="addRule">添加规则</button>
+									<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+									<button type="button" id="addCurrentAsBlacklist" class="layui-btn layui-btn-sm layui-btn-danger" style="margin-left: 10px;" disabled>将当前网站加入黑名单</button>
+								</div>
+							</div>
+						</form>
+						<hr>
+						<h4>规则列表:</h4>
+						<ul id="ruleList" class="layui-list" style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+							<!-- 规则列表项将由 JS 动态添加 -->
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item">
+				<div class="layui-card">
+					<div class="layui-card-header">反馈验证码识别错误</div>
+					<div class="layui-card-body">
+						<p>若发现验证码识别结果错误，可点击下方按钮将当前页面的验证码图片及相关表单结构匿名上传，以帮助改进识别准确率。</p>
+						<button class="layui-btn layui-btn-danger" id="reportErrorBtn"><i class="layui-icon layui-icon-release"></i> 提交错误示例</button>
+						<p style="margin-top:8px;color:#999;">提交内容包括：页面 URL、时间戳、验证码图片及部分表单 HTML 结构，不包含任何个人输入。</p>
+					</div>
+				</div>
+			</div>
+			<div class="layui-tab-item">
+				<div class="layui-card">
+					<div class="layui-card-header">AutoVerify</div>
+					<div class="layui-card-body">
+						<b>本次更新 (v1.4.5):</b><br>
+						1. 尝试增加多国语言支持<br>
+						<b>本次更新 (v1.4.4):</b><br>
+						1. 对于用户反馈的验证码深入加强规则，极大的提升泛化能力、匹配能力<br>
+						2. 同时感谢对识别有误反馈的人员的贡献，同时希望可以有更多反馈<br>
+						3. 推荐用户升级到此版本<br>
+						---<br>
+                        
+						<b>本次更新 (v1.4.3):</b><br>
+						1. 新增"误报上传"功能，可匿名上传错误示例，帮助改进识别准确率。（可帮助后续改成AI动态识别框）<br>
+						2. 优化图片识别逻辑，最小化识别原则，避免给用户带来极差的体验。<br>
+						---<br>
+						原说明：<br>
+						- 模型采用JS引擎加载，无需访问外网。*_*<br>
+						- 重写逻辑，返璞归真。去掉花里胡哨的按钮、逻辑等内容。<br>
+						- 对VUE等框架开发的网站验证码赋值不生效问题的解决（本人测试一个demo，没啥问题>_<）<br>
+						- 插件永远不会收费（纯公益，不喜欢建议删除）<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../js/layui/layui.js"></script>
+	<script src="../js/bindEvent.js"></script>
+	</body>
+</html>

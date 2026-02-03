@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3, 
+  "name": "AutoVerify",
+  "version": "1.4.5",
+  "description": "全自动、高精度的验证码识别与填写解决方案。提高您的工作效率，解放您的双手。",
+  "icons": {
+    "16": "img/logo.png",
+    "48": "img/logo.png",
+    "128": "img/logo.png"
+  },
+  "action": {
+    "default_title": "使用AutoVerify，享受一键式智能验证码识别与填写。",
+    "default_popup": "html/popup.html"
+  }, 
+  "author": "Hututu",
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "content_scripts": [
+    {
+      "js":["js/inject.js"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "permissions": [
+	"storage",
+	"tabs"
+  ]
+}
